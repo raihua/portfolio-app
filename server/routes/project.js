@@ -1,6 +1,6 @@
 const express = require("express");
 
-const recordRoutes = express.Router();
+const projectRoutes = express.Router();
 
 // Conn connects the DB to the app.
 const dbo = require("../db/conn");
@@ -9,12 +9,12 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 
-// Following section is for getting all project records.
-recordRoutes.route("/record").get(function (req, res) {
+// Following section is for getting all project projects.
+projectRoutes.route("/project").get(function (req, res) {
     let db_connect = dbo.getDb();
 
     db_connect
-        .collection("portfolio")
+        .collection("projects")
         .find({})
         .toArray(function (err, result) {
             if (err) throw err;
@@ -23,20 +23,20 @@ recordRoutes.route("/record").get(function (req, res) {
 });
 
 // Following section helps get a single project by its id
-recordRoutes.route("/record/:id").get(function (req, res) {
+projectRoutes.route("/project/:id").get(function (req, res) {
     let db_connect = dbo.getDb();
     let my_query = {_id: ObjectId(req.params.id)};
 
     db_connect
-        .collection("portfolio")
+        .collection("projects")
         .findOne(my_query, function (err, result) {
             if (err) throw err;
             res.json(result);
         });
 });
 
-// Following section helps create a new project record
-recordRoutes.route("/record/add").post(function (req, response) {
+// Following section helps create a new project project
+projectRoutes.route("/project/add").post(function (req, response) {
     let db_connect = dbo.getDb();
     let current_date = new Date();
     let my_object = {
@@ -48,14 +48,14 @@ recordRoutes.route("/record/add").post(function (req, response) {
     };
 
     db_connect
-        .collection("portfolio").insertOne(my_object, function (err, res) {
+        .collection("projects").insertOne(my_object, function (err, res) {
             if (err) throw err;
             response.json(res);
         });
 });
 
-// Following section updates a project record by id.
-recordRoutes.route("update/:id").post(function (req, response) {
+// Following section updates a project project by id.
+projectRoutes.route("update/:id").post(function (req, response) {
     let db_connect = dbo.getDb();
     let my_query = {_id: ObjectId(req.params.id)};
     let current_date = new Date();
@@ -69,7 +69,7 @@ recordRoutes.route("update/:id").post(function (req, response) {
     };
 
     db_connect
-        .collection("portfolio")
+        .collection("projects")
         .updateOne(my_query, new_values, function (err, res) {
             if (err) throw err;
             console.log("1 document updated");
@@ -77,13 +77,13 @@ recordRoutes.route("update/:id").post(function (req, response) {
         });
 });
 
-// Following section deletes a record
-recordRoutes.route(":id").delete((req, response) => {
+// Following section deletes a project
+projectRoutes.route(":id").delete((req, response) => {
     let db_connect = dbo.getDb();
     let my_query = {_id: ObjectId(req.params.id)};
     
     db_connect
-        .collection("portfolio")
+        .collection("projects")
         .deleteOne(my_query, function (err, obj) {
             if (err) throw err;
             console.log("1 document deleted");
@@ -91,4 +91,4 @@ recordRoutes.route(":id").delete((req, response) => {
         });
 });
 
-module.exports = recordRoutes;
+module.exports = projectRoutes;
