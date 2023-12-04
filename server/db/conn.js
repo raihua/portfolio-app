@@ -12,8 +12,8 @@ module.exports = {
         client.connect(function (err, db) {
             if (db)
             {
-                _db = db.db("ProjectDataStore");
-                console.log("Successfully connected to ProjectDataStore.");
+                _db = db.db("Portfolio");
+                console.log("Successfully connected to Portfolio DB.");
             }
             return callback(err);
         });
