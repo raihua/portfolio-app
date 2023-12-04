@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(require("./routes/projects"))
+app.use(require("./routes/record"))
 
 const dbo = require("./db/conn");
 
